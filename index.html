@@ -1,35 +1,40 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="en">
 <head>
-    <title>InfoskjermLive</title>
-    <script src="https://www.youtube.com/iframe_api"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RTMP Stream</title>
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+  <!-- Include video.js and the flash tech plugin -->
+  <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+  <script src="https://unpkg.com/@videojs/http-streaming@2.9.2/dist/videojs-http-streaming.min.js"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+    }
+    #my_video_1 {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
-    <div id="player"></div>
+  <video-js id="my_video_1" class="vjs-default-skin" controls autoplay preload="auto">
+    <source src="rtmp://a.rtmp.youtube.com/live2" type="rtmp/flv">
+  </video-js>
 
-    <script>
-        var player;
-        function onYouTubeIframeAPIReady() {
-          player = new YT.Player('player', {
-            height: '100%',
-            width: '100%',
-            videoId: 'jfKfPfyJRdk',
-            playerVars: {
-              'autoplay': 1,
-              'controls': 0,
-              'rel': 0,
-              'fs': 1,
-              'modestbranding': 1
-            },
-            events: {
-              'onReady': onPlayerReady
-            }
-          });
-        }
-      
-        function onPlayerReady(event) {
-          event.target.playVideo();
-        }
-      </script>
+  <script>
+    var player = videojs('my_video_1');
+    player.ready(function() {
+      player.requestFullscreen();
+    });
+  </script>
 </body>
 </html>
