@@ -3,38 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RTMP Stream</title>
-  <!-- Video.js CSS -->
-  <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
-  <!-- Include video.js and the flash tech plugin -->
-  <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
-  <script src="https://unpkg.com/@videojs/http-streaming@2.9.2/dist/videojs-http-streaming.min.js"></script>
+  <title>YouTube Stream Fullscreen Autoplay</title>
+  <script src="https://www.youtube.com/iframe_api"></script>
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       background-color: black;
     }
-    #my_video_1 {
+    #player {
       width: 100%;
       height: 100%;
     }
   </style>
 </head>
 <body>
-  <video-js id="my_video_1" class="vjs-default-skin" controls autoplay preload="auto">
-    <source src="rtmp://a.rtmp.youtube.com/live2" type="rtmp/flv">
-  </video-js>
+  <div id="player"></div>
 
   <script>
-    var player = videojs('my_video_1');
-    player.ready(function() {
-      player.requestFullscreen();
-    });
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: 'kWDSuWVw8xM', // Replace with your video ID
+        playerVars: {
+          'autoplay': 1,
+          'controls': 0,
+          'rel': 0,
+          'fs': 1,
+          'modestbranding': 1,
+          'mute': 1 // Mute the video to allow autoplay on some browsers
+        },
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      event.target.playVideo();
+      var iframe = document.getElementById('player');
+      requestFullScreen(iframe);
+    }
+
+    function requestFullScreen(element) {
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.mozRequestFullScreen) { /* Firefox */
+        element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) { /* IE/Edge */
+        element.msRequestFullscreen();
+      }
+    }
   </script>
 </body>
 </html>
