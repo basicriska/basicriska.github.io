@@ -30,6 +30,7 @@
     const response = await fetch('https://b3gblqqj5c.execute-api.eu-north-1.amazonaws.com/default/getStreamId', {mode:"cors"})
     console.log(response)
     const streamId = await response.json();
+    console.log(streamId)
     }
     var player;
     function onYouTubeIframeAPIReady() {
