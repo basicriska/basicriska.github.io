@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Stream Fullscreen Autoplay</title>
+  <title>Fullscreen YouTubeStream InfoSkjerm</title>
   <script src="https://www.youtube.com/iframe_api"></script>
   <style>
     body, html {
@@ -26,17 +26,22 @@
   <div id="player"></div>
 
   <script>
+    const getStreamId = async () => {
+    const response = await fetch('https://b3gblqqj5c.execute-api.eu-north-1.amazonaws.com/default/getStreamId', {mode:"cors"})
+    console.log(response)
+    const streamId = await response.json();
+    }
     var player;
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
-        videoId: 'tVqB5IK1pKA', // Replace with your video ID
+        videoId: streamId,
         playerVars: {
           'autoplay': 1,
           'controls': 0,
           'rel': 0,
           'fs': 1,
           'modestbranding': 1,
-          'mute': 1 // Mute the video to allow autoplay on some browsers
+          'mute': 1
         },
         events: {
           'onReady': onPlayerReady
